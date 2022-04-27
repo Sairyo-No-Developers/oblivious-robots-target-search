@@ -3,6 +3,9 @@ import networkx
 import random
 from matplotlib import pyplot as plt
 from .chordAdder import multi_chord
+from threading import Thread, Lock
+from time import sleep, time
+import pickle
 
 def ranks(sample):
     #Return the ranks of each element in an integer sample.
@@ -25,12 +28,17 @@ class Playground:
         self.whiteboardValues = {} 
         self.noOfRobots=None
         self.noOfNodes=None
+        self.robotThreads = []
+        self.start = False
         
     def setupRobots(self,args):
-        randoms=random.sample(range(self.graph.number_of_nodes()),args['noOfRobots'])        
+        print("random start")
+        randoms=random.sample(range(self.graph.number_of_nodes()),args['noOfRobots'])      
+        print("random end")
         for i in randoms:
             robot = Robot(i,self.targetVal)
             self.robots[robot.id] = robot
+            print(f"{i}. Robot {robot.name} Initialized")
             
     def setupRingWithChordsGraph(self, args):
         noOfNodesInChord=2*args['val']//(args['val']//args['noOfChords'])
@@ -65,8 +73,11 @@ class Playground:
         return
     
     def setupCircularLadderGraph(self, args):
+        print("75")
         self.graph = networkx.circular_ladder_graph(args['r'])
+        print("77")
         self.pos = networkx.kamada_kawai_layout(self.graph)
+        print("79")
         self.whiteboardValues = {}
         self.robots = {}
         return
@@ -173,8 +184,12 @@ class Playground:
                 "type": "duplication_divergence_graph",
                 "name": "Duplication Divergence Graph"
             },
-            
+            11: {
+                "type": "ring-with-chords",
+                "name": "Ring with Chords Graph"
+            }            
         }
+            
         for key, value in graphs.items():
             print(f"{key}. {value['name']}")
             
@@ -332,17 +347,27 @@ class Playground:
             ans = ans and i.done
         return not ans
         
-    def cycleRobots(self):
+    def initiateRobots(self):
+        lock = Lock()
         for _, val in self.robots.items():
-            val.cycle(self)
+            t = Thread(target=val.cycle, args=(lock, self), daemon=True)
+            self.robotThreads.append(t)
+            print(f"Thread initiated : {val.name}")
+        self.start = True
+    
+    def startRobots(self):
+        for i in self.robotThreads:
+            i.start()
         
     def run(self):
         run = True
         visualSwitch = False
-        counter = 0
+        self.initiateRobots()
+        t = Thread(target=self.startRobots, daemon=True)
+        start = time()
+        t.start()
         while run:
-            print("----------------------- Cycle {} -----------------------".format(counter))
-            self.cycleRobots()
+            # print("----------------------- Cycle {} -----------------------".format(counter))
             run = self.checkTargets()
             plt.clf()
             color_map = []
@@ -370,27 +395,35 @@ class Playground:
             else:
                 for key, value in self.whiteboardValues.items():
                     labels[key] = f'{value}'
-            counter += 1
             #if counter % 20 == 0:
             #    visualSwitch = not visualSwitch
             if not self.sim:
                 try:
-                    plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} :No. of cycles -> {counter}')     
+                    plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))}')     
                     networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
                     networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
                     networkx.draw_networkx_edges(self.graph, self.pos)
                     plt.pause(0.0001)
                 except Exception as e:
                     print(str(e))
+        end = time()
+        cycles = list(self.robots.values()) #{4, 5, 6, 7, 8, 9, 10, 11, 1228, 12, 14, 13} try to find out why this one is so much higher
+        maxCycle = (max(cycles, key=lambda x: x.cycles))
+        pickle.dump(maxCycle.moves, open("Max Moves.txt", "wb"))
+        counter = max(list(map(lambda x: x.cycles, cycles)))
         if not self.sim:
+            plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} : Total cycles -> {counter}')     
+            networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
+            networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
+            networkx.draw_networkx_edges(self.graph, self.pos)
             plt.show()
         if self.sim:
             return [self.noOfNodes,self.noOfRobots, counter]
         else:
-            print(self.noOfNodes, self.noOfRobots, counter)
+            print(self.noOfNodes, self.noOfRobots, counter, f"{(end - start) * 1000}ms")
         
             
     # SetupGraph SetupWhiteBoard Run to control the flow
     
-if __name__ == '__main__':
-    P = Playground(False)
+# if __name__ == '__main__':
+#     P = Playground(False)

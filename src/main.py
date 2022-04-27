@@ -1,4 +1,5 @@
 from Graph import Playground
+from time import time
 
 def main():
     P = Playground(False)

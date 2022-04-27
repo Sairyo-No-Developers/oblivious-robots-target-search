@@ -173,7 +173,10 @@ class Playground:
                 "type": "duplication_divergence_graph",
                 "name": "Duplication Divergence Graph"
             },
-            
+            11: {
+                "type": "ring-with-chords",
+                "name": "Ring with Chords Graph"
+            }            
         }
         for key, value in graphs.items():
             print(f"{key}. {value['name']}")

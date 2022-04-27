@@ -18,19 +18,18 @@ def sample_with_minimum_distance(n, k, d):
     sample = random.sample(range(n-(k-1)*(d-1)), k)
     return [s + (d-1)*r for s, r in zip(sample, ranks(sample))]
 
-def multi_chord(P, noOfChords, noOfNodes,):
-    #only add chords between nodes on the circle
-    chordPos = sample_with_minimum_distance(P.graph.number_of_nodes(), 2*noOfChords, P.graph.number_of_nodes()//(2*noOfChords))
-    ChordNodes= randomListWithFixedSum(noOfChords,noOfNodes)
-    for i in range(noOfChords):
-        add_chord(P, ChordNodes[i], chordPos[2*i], chordPos[2*i+1])
-        
-# def multi_chord(G, noOfChords, noOfNodes):
-# #use this to add chords at any position.
+# def multi_chord(P, noOfChords, noOfNodes,):
+#     #only add chords between nodes on the circle
+#     chordPos = sample_with_minimum_distance(P.graph.number_of_nodes(), 2*noOfChords, P.graph.number_of_nodes()//(2*noOfChords))
 #     ChordNodes= randomListWithFixedSum(noOfChords,noOfNodes)
 #     for i in range(noOfChords):
-#         chordPos = sample_with_minimum_distance(G.number_of_nodes(), 2, G.number_of_nodes()//(2*noOfChords))
-#         add_chord(G, ChordNodes[i], chordPos[0], chordPos[1])
+#         add_chord(P, ChordNodes[i], chordPos[2*i], chordPos[2*i+1])
+        
+def multi_chord(P, noOfChords, noOfNodes):
+    ChordNodes= randomListWithFixedSum(noOfChords,noOfNodes)
+    for i in range(noOfChords):
+        chordPos = sample_with_minimum_distance(P.graph.number_of_nodes(), 2, P.graph.number_of_nodes()//(2*noOfChords))
+        add_chord(P, ChordNodes[i], chordPos[0], chordPos[1])
         
 def add_chord(P, noOfNodes, strPos, endPos):
     

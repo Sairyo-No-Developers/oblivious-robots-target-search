@@ -53,7 +53,7 @@ class Robot:
             lock.acquire()
             P.whiteboardValues = self.whiteboardValues
             lock.release()
-            sleep(0.0001)
+            sleep(0.1)
         print(f"Thread stopped : {self.name}")
             
             

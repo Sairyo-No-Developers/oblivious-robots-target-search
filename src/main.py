@@ -5,9 +5,9 @@ def main():
     P = Playground(False)
     # P.setup({
     #     "type": "ring-with-chords",
-    #     "val": 5,
-    #     "noOfRobots": 2,
-    #     "noOfChords": 1
+    #     "val": 3000,
+    #     "noOfRobots": 900,
+    #     "noOfChords": 500
     # })
     # P.setup({
     #     "type": "binomial_tree",

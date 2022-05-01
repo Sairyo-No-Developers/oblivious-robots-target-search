@@ -1,4 +1,5 @@
 from functools import reduce
+import random
 
 def oneNeighbourCycle(self):
     neighbours, selfData = self.lookNeighbours()
@@ -99,7 +100,7 @@ def moreThanTwoNeighboursCycle(self):
             self.move(targetNodes[0]["id"])
             return
         if len(zeroNodes) > 0:
-            self.move(zeroNodes[0]["id"])
+            self.move(zeroNodes[random.randint(0,len(zeroNodes)-1)]["id"])
             return
         
         if len(lessThanNodes) > 0:
@@ -130,11 +131,11 @@ def moreThanTwoNeighboursCycle(self):
         return
     
     if len(lessThanNodes) == 0 and len(greaterThanNodes) == 0:
-        self.move(zeroNodes[0]["id"], -1)
+        self.move(zeroNodes[random.randint(0,len(zeroNodes)-1)]["id"], -1)
         return
     
     if len(greaterThanNodes) == 0:
-        self.move(zeroNodes[0]["id"], lessThanNodes[-1]["val"] - 1)
+        self.move(zeroNodes[random.randint(0,len(zeroNodes)-1)]["id"], lessThanNodes[-1]["val"] - 1)
         return
     
     if len(zeroNodes) == 0:
@@ -143,8 +144,8 @@ def moreThanTwoNeighboursCycle(self):
     
     
     if len(lessThanNodes) == 0:
-        self.move(zeroNodes[0]["id"], greaterThanNodes[0]["val"] + 1)
+        self.move(zeroNodes[random.randint(0,len(zeroNodes)-1)]["id"], greaterThanNodes[0]["val"] + 1)
         return
     
-    self.move(zeroNodes[0]["id"], greaterThanNodes[0]["val"] + 1)
+    self.move(zeroNodes[random.randint(0,len(zeroNodes)-1)]["id"], greaterThanNodes[0]["val"] + 1)
     return 

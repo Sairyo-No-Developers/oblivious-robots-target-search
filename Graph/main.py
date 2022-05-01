@@ -60,7 +60,7 @@ class Playground:
     
     def setupCompleteGraph(self, args):
         self.graph = networkx.complete_graph(args['r'])
-        self.pos = networkx.circular_layout(self.graph)
+        self.pos = networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
@@ -73,11 +73,8 @@ class Playground:
         return
     
     def setupCircularLadderGraph(self, args):
-        print("75")
         self.graph = networkx.circular_ladder_graph(args['r'])
-        print("77")
         self.pos = networkx.kamada_kawai_layout(self.graph)
-        print("79")
         self.whiteboardValues = {}
         self.robots = {}
         return
@@ -177,10 +174,6 @@ class Playground:
                 "name": "Ladder Graph"
             },
             10: {
-                "type": "ring-with-chords",
-                "name": "Ring with Chords Graph"
-            },
-            10: {
                 "type": "duplication_divergence_graph",
                 "name": "Duplication Divergence Graph"
             },
@@ -200,7 +193,7 @@ class Playground:
         typeOfGraph = graphs[typeOfGraph]["type"]            
         
         if typeOfGraph == 'ring-with-chords':
-            val = int(input("Enter number of nodes (5-1000): "))
+            val = int(input("Enter number of nodes (5-5000): "))
             args = {
                 "type": "ring-with-chords",
                 "val": val,
@@ -217,7 +210,7 @@ class Playground:
             }
             self.setupBinomialTree(args)
         elif typeOfGraph == 'complete_graph':
-            r = int(input("Enter number of nodes in the graph (3-100): "))
+            r = int(input("Enter number of nodes in the graph (3-250): "))
             args = {
                 "type": "complete_graph",
                 "r": r,
@@ -225,17 +218,17 @@ class Playground:
             }
             self.setupCompleteGraph(args)
         elif typeOfGraph == 'complete_multipartite_graph':
-            r = int(input("Enter number of nodes in 1st partition (1-100): "))
-            h= int(input("Enter number of node in 2nd partition (1-100): "))
+            r = int(input("Enter number of nodes in 1st partition (1-200): "))
+            h= int(input("Enter number of node in 2nd partition (1-200): "))
             args = {
                 "type": "complete_multipartite_graph",
                 "r": r,
                 "h": h,
-                "noOfRobots": int(input(f"Enter number of robots (1-{r+h}): "))
+                "noOfRobots": int(input(f"Enter number of robots (1-{r}): "))
             }
             self.setupCompleteMultipartiteGraph(args)
         elif typeOfGraph == 'circular_ladder_graph':
-            r = int(input("Enter number of nodes in the circles (2-250): "))
+            r = int(input("Enter number of nodes in the circles (2-400): "))
             args = {
                 "type": "circular_ladder_graph",
                 "r": r,
@@ -243,7 +236,7 @@ class Playground:
             }
             self.setupCircularLadderGraph(args)
         elif typeOfGraph == 'circulant_graph':
-            r = int(input("Enter number of nodes in the graph (5-250): "))
+            r = int(input("Enter number of nodes in the graph (5-400): "))
             args = {
                 "type": "circulant_graph",
                 "r": r,
@@ -252,7 +245,7 @@ class Playground:
             }
             self.setupCirculantGraph(args)
         elif typeOfGraph == 'chordal_cycle_graph':
-            r = int(input("Enter number of nodes in the graph (4-250): "))
+            r = int(input("Enter number of nodes in the graph (4-600): "))
             args = {
                 "type": "chordal_cycle_graph",
                 "r": r,
@@ -260,7 +253,7 @@ class Playground:
             }
             self.setupChordalCycleGraph(args)
         elif typeOfGraph == 'dorogovtsev_goltsev_mendes_graph':
-            r = int(input("Enter number of nodes in the graph (3-6): "))
+            r = int(input("Enter height of the graph (3-8): "))
             args = {
                 "type": "chordal_cycle_graph",
                 "r": r,
@@ -277,7 +270,7 @@ class Playground:
             }
             self.setupFullRaryTree(args)
         elif typeOfGraph == 'ladder_graph':
-            r = int(input("Enter number of steps in the ladder (2-100): "))
+            r = int(input("Enter number of steps in the ladder (2-200): "))
             args = {
                 "type": "ladder_graph",
                 "r": r,
@@ -285,7 +278,7 @@ class Playground:
             }
             self.setupLadderGraph(args)
         elif typeOfGraph == 'duplication_divergence_graph':
-            r = int(input("Enter number of nodes in the graph (8-150): "))
+            r = int(input("Enter number of nodes in the graph (8-300): "))
             args = {
                 "type": "duplication_divergence_graph",
                 "r": r,
@@ -403,7 +396,7 @@ class Playground:
                     networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
                     networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
                     networkx.draw_networkx_edges(self.graph, self.pos)
-                    plt.pause(0.0001)
+                    plt.pause(0.1)
                 except Exception as e:
                     print(str(e))
         end = time()

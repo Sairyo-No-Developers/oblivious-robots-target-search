@@ -34,7 +34,7 @@ def twoNeighboursCycle(self):
     elif reduce((lambda x, y : x["val"] == self.target or y["val"] == self.target), neighbours):
         otherNode = list(filter(lambda x: x["val"] != self.target, neighbours))[0]
         targetNode = list(filter(lambda x: x["val"] == self.target, neighbours))[0]
-        if otherNode["val"] == 2:
+        if otherNode["val"] == 2 or otherNode["val"] == 1:
             self.move(targetNode["id"], 1)
             return
         else:
@@ -95,7 +95,7 @@ def moreThanTwoNeighboursCycle(self):
     
     if len(targetNodes) > 0:
         self.updateWhiteboardValue(1)
-        if reduce((lambda x, y: x and y), map(lambda x: x["val"] == 2, neighbours)):
+        if len(list(filter(lambda x: x["val"] == 1 or x["val"] == 2, neighbours))) == len(neighbours) - 1:
             self.move(targetNodes[0]["id"])
             return
         if len(zeroNodes) > 0:
@@ -106,9 +106,7 @@ def moreThanTwoNeighboursCycle(self):
             self.move(lessThanNodes[0]["id"])
             return
         
-        if len(list(filter(lambda x: x["val"] == 1 or x["val"] == 2, neighbours))) == len(neighbours) - 1:
-            self.move(targetNodes[0]["id"])
-            return
+        
         other = list(filter(lambda x: x["val"] != 2, neighbours))[0]
         self.move(other["id"])
         return
@@ -140,11 +138,7 @@ def moreThanTwoNeighboursCycle(self):
     if len(zeroNodes) == 0:
         self.move(lessThanNodes[0]["id"], greaterThanNodes[0]["val"] + 1)
         return
-    
-    
-    if len(lessThanNodes) == 0:
-        self.move(zeroNodes[0]["id"], greaterThanNodes[0]["val"] + 1)
-        return
+
     
     self.move(zeroNodes[0]["id"], greaterThanNodes[0]["val"] + 1)
     return 

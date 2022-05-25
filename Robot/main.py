@@ -35,7 +35,7 @@ class Robot:
         self.whiteboardValues = P.whiteboardValues
         self.graph = P.graph
         self.robots = list(map(lambda x: x.pos, P.robots.values()))
-        if len(P.graph.edges(self.pos)) > 2:
+        if len(P.graph.edges(self.pos)) > 2: # use look neighbours function, delete checkIfJunction or modify it
             moreThanTwoNeighboursCycle(self)
         elif len(P.graph.edges(self.pos)) == 2:
             twoNeighboursCycle(self)

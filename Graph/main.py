@@ -166,10 +166,6 @@ class Playground:
                 "name": "Ladder Graph"
             },
             10: {
-                "type": "ring-with-chords",
-                "name": "Ring with Chords Graph"
-            },
-            10: {
                 "type": "duplication_divergence_graph",
                 "name": "Duplication Divergence Graph"
             },
@@ -385,6 +381,7 @@ class Playground:
                     plt.pause(0.0001)
                 except Exception as e:
                     print(str(e))
+            #input()#remove for val>=20
         if not self.sim:
             plt.show()
         if self.sim:

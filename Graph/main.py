@@ -29,7 +29,7 @@ class Playground:
     def setupRobots(self,args):
         randoms=random.sample(range(self.graph.number_of_nodes()),args['noOfRobots'])        
         for i in randoms:
-            robot = Robot(i,self.targetVal)
+            robot = Robot(i,self.targetVal,self.sim)
             self.robots[robot.id] = robot
             
     def setupRingWithChordsGraph(self, args):
@@ -340,9 +340,11 @@ class Playground:
         visualSwitch = False
         counter = 0
         while run:
-            print("----------------------- Cycle {} -----------------------".format(counter))
             self.cycleRobots()
             run = self.checkTargets()
+            counter += 1
+            if self.sim: continue
+            print("----------------------- Cycle {} -----------------------".format(counter))
             plt.clf()
             color_map = []
             edge_colors = []
@@ -369,28 +371,26 @@ class Playground:
             else:
                 for key, value in self.whiteboardValues.items():
                     labels[key] = f'{value}'
-            counter += 1
             #if counter % 20 == 0:
             #    visualSwitch = not visualSwitch
-            if not self.sim:
-                try:
-                    plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} :No. of cycles -> {counter}')     
-                    networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
-                    networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
-                    networkx.draw_networkx_edges(self.graph, self.pos)
-                    plt.pause(0.0001)
-                except Exception as e:
-                    print(str(e))
+            try:
+                plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} :No. of cycles -> {counter}')     
+                networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
+                networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
+                networkx.draw_networkx_edges(self.graph, self.pos)
+                plt.pause(0.0001)
+            except Exception as e:
+                print(str(e))
             #input()#remove for val>=20
         if not self.sim:
             plt.show()
         if self.sim:
-            return [self.noOfNodes,self.noOfRobots, counter]
+            return [self.noOfNodes,self.noOfRobots, counter-2]
         else:
             print(self.noOfNodes, self.noOfRobots, counter)
         
             
     # SetupGraph SetupWhiteBoard Run to control the flow
     
-if __name__ == '__main__':
-    P = Playground(False)
+# if __name__ == '__main__':
+#     P = Playground(True)

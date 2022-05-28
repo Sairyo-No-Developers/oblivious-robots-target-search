@@ -1,13 +1,13 @@
 from Graph import Playground
 
 def main():
-    P = Playground(False)
-    # P.setup({
-    #     "type": "ring-with-chords",
-    #     "val": 5,
-    #     "noOfRobots": 2,
-    #     "noOfChords": 1
-    # })
+    P = Playground(True)
+    P.setup({
+        "type": "ring-with-chords",
+        "val": 100,
+        "noOfRobots": 20,
+        "noOfChords": 15
+    })
     # P.setup({
     #     "type": "binomial_tree",
     #     "r": 8,
@@ -61,8 +61,8 @@ def main():
     #     "r": 150,
     #     "noOfRobots": 60    
     # })
-    P.setup()
-    P.run()
+    #P.setup()
+    print(P.run())
 
 if __name__ == "__main__":
     main()

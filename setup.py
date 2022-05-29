@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='oblivious_robots_target_searching',
-    version='0.0.1',
+    version='0.0.2',
     license='MIT',
     author="Sairyö No Developers",
     author_email='tech@sairyonodevs.in',

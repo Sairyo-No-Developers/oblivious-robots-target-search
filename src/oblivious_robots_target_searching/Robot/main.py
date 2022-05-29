@@ -1,7 +1,7 @@
 from functools import reduce
 from uuid import uuid4
-from Graph import *
-from Algorithm import *
+from ..Graph import *
+from ..Algorithm import *
 from names import get_first_name
 
 class Robot:

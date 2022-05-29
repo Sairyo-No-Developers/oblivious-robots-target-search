@@ -1,1 +1,1 @@
-import Algorithm, Graph, Robot
+from . import Algorithm, Graph, Robot

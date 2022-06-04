@@ -1,0 +1,54 @@
+name: Run tests, Build PyPi Package and Publish it to PyPi
+on:
+  push:
+    branches:
+      - main
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Tests the modules
+    steps:
+      - name: Checkout code from Github
+        uses: actions/checkout@v3
+      - name: Setup Python 3.10.1
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10.1"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run tests with pytest
+        run: pytest
+  build:
+    runs-on: ubuntu-latest
+    name: Tests the modules
+    steps:
+      - name: Checkout code from Github
+        uses: actions/checkout@v3
+      - name: Setup Python 3.10.1
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10.1"
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Build package
+        run: python setup.py sdist
+      - name: Save the build
+        uses: actions/upload-artifact@v3
+        with:
+          name: dist
+          path: dist/
+  publish:
+    runs-on: ubuntu-latest
+    name: Tests the modules
+    steps:
+      - name: Retrieves the build
+        uses: actions/download-artifact@v3
+        with:
+          name: dist
+      - name: Publish the Python distribution to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          user: ${{ secrets.PYPI_USERNAME }}
+          password: ${{ secrets.PYPI_TOKEN }}
+          skip_existing: true
+          verbose: true

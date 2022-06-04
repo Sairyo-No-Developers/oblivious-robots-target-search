@@ -1,4 +1,3 @@
-from msilib.schema import Error
 from ..Robot import Robot
 import networkx
 import random

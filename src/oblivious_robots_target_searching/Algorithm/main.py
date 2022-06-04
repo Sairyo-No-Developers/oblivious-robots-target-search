@@ -77,7 +77,6 @@ def twoNeighboursCycle(self):
     return            
 
 def moreThanTwoNeighboursCycle(self):
-    #to do: save length of zeronodes, lessthannodes and morethannodes is some variable and use it instead of len() function.
     neighbours, selfData = self.lookNeighbours()
     greaterThanNodes = sorted(list(filter((lambda x: x["val"] > 0), neighbours)), key=lambda x: x["val"])
     lessThanNodes = sorted(list(filter((lambda x: x["val"] < 0), neighbours)), key=lambda x: x["val"])

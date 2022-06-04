@@ -6,7 +6,11 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name='oblivious_robots_target_searching',
-    version='0.0.3',
+    version='0.0.4',
+    description='This package provides a powerful Playground for designing and testing algorithms for oblivious robots',
+    description_content_type='text/plain',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     license='MIT',
     author="Sairyö No Developers",
     author_email='tech@sairyonodevs.in',

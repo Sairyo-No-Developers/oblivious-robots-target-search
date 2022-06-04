@@ -34,14 +34,19 @@ class Playground:
             self.robots[robot.id] = robot
             
     def setupRingWithChordsGraph(self, args):
-        noOfNodesInChord=2*args['val']//(args['val']//args['noOfChords'])
-        initNoOfNodes=args['val']-noOfNodesInChord
+        if args['noOfChords'] != 0:
+            noOfNodesInChord=2*args['val']//(args['val']//args['noOfChords'])
+            initNoOfNodes=args['val']-noOfNodesInChord
+        else:
+            initNoOfNodes=args['val']
+            noOfNodesInChord=0
         self.graph = networkx.cycle_graph(initNoOfNodes)
         if not self.sim:
             self.pos = networkx.circular_layout(self.graph)
         self.whiteboardValues = {}
-        self.robots = {}            
-        multi_chord(self,args['noOfChords'],noOfNodesInChord)
+        self.robots = {} 
+        if noOfNodesInChord!=0:          
+            multi_chord(self,args['noOfChords'],noOfNodesInChord)
         return
     
     def setupBinomialTree(self, args):

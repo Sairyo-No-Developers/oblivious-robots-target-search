@@ -1,4 +1,3 @@
-import pytest
 from src.oblivious_robots_target_searching.Graph import Playground
 
 noOfNodes = 100

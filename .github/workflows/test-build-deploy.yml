@@ -21,6 +21,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: Builds the Package
+    needs: test
     steps:
       - name: Checkout code from Github
         uses: actions/checkout@v3
@@ -40,6 +41,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     name: Publishes the Package
+    needs: build
     steps:
       - name: Retrieves the build
         uses: actions/download-artifact@v3

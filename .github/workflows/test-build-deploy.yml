@@ -47,6 +47,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: dist
+          path: dist
       - name: Publish the Python distribution to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
@@ -54,4 +55,3 @@ jobs:
           password: ${{ secrets.PYPI_TOKEN }}
           skip_existing: true
           verbose: true
-          path: dist/

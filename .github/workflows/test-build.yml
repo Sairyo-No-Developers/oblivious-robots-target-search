@@ -20,7 +20,7 @@ jobs:
         run: pytest
   build:
     runs-on: ubuntu-latest
-    name: Tests the modules
+    name: Build Check
     steps:
       - name: Checkout code from Github
         uses: actions/checkout@v3

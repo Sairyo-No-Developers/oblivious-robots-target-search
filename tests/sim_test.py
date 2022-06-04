@@ -19,3 +19,17 @@ def test_simRingWithChords():
         "noOfChords": 15
     })
     assert checkResult(P.run())
+    
+def test_InvalidGraphError():
+    err = None
+    P = Playground(True)
+    try:
+        P.setup({
+            "type": "no-such-graph-exists",
+            "val": noOfNodes,
+            "noOfRobots": noOfRobots,
+            "noOfChords": 15
+        })
+    except Exception as e:
+        err = str(e)
+    assert err == 'Invalid Graph'

@@ -1,4 +1,5 @@
-from Robot import Robot
+from msilib.schema import Error
+from ..Robot import Robot
 import networkx
 import random
 from matplotlib import pyplot as plt
@@ -35,9 +36,9 @@ class Playground:
     def setupRingWithChordsGraph(self, args):
         noOfNodesInChord=2*args['val']//(args['val']//args['noOfChords'])
         initNoOfNodes=args['val']-noOfNodesInChord
-
         self.graph = networkx.cycle_graph(initNoOfNodes)
-        self.pos = networkx.circular_layout(self.graph)
+        if not self.sim:
+            self.pos = networkx.circular_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}            
         multi_chord(self,args['noOfChords'],noOfNodesInChord)
@@ -45,28 +46,32 @@ class Playground:
     
     def setupBinomialTree(self, args):
         self.graph = networkx.binomial_tree(args["r"])
-        self.pos = networkx.kamada_kawai_layout(self.graph)
+        if not self.sim:
+            self.pos = networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupCompleteGraph(self, args):
         self.graph = networkx.complete_graph(args['r'])
-        self.pos = networkx.circular_layout(self.graph)
+        if not self.sim:
+            self.pos = networkx.circular_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupCompleteMultipartiteGraph(self, args):        
         self.graph = networkx.complete_multipartite_graph(args['r'],args['h'])
-        self.pos = networkx.multipartite_layout(self.graph)
+        if not self.sim:
+            self.pos = networkx.multipartite_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupCircularLadderGraph(self, args):
         self.graph = networkx.circular_ladder_graph(args['r'])
-        self.pos = networkx.kamada_kawai_layout(self.graph)
+        if not self.sim:
+            self.pos = networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
@@ -76,42 +81,48 @@ class Playground:
         for _ in range(args['r']):
             offset.append(random.randint(0,args['h']))
         self.graph=networkx.circulant_graph(args['r'],offset)
-        self.pos=networkx.spring_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.spring_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
 
     def setupChordalCycleGraph(self, args):
         self.graph=networkx.chordal_cycle_graph(args['r'])
-        self.pos=networkx.fruchterman_reingold_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.fruchterman_reingold_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupDorogovtsevGoltsevMendesGraph(self, args):
         self.graph=networkx.dorogovtsev_goltsev_mendes_graph(args['r'])
-        self.pos=networkx.planar_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.planar_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupFullRaryTree(self, args):
         self.graph=networkx.full_rary_tree(args['r'],args['h'])
-        self.pos=networkx.kamada_kawai_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupLadderGraph(self, args):
         self.graph=networkx.ladder_graph(args['r'])
-        self.pos=networkx.kamada_kawai_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
     
     def setupDuplicationDivergenceGraph(self, args):
         self.graph=networkx.duplication_divergence_graph(args['r'],1)
-        self.pos=networkx.kamada_kawai_layout(self.graph)
+        if not self.sim:
+            self.pos=networkx.kamada_kawai_layout(self.graph)
         self.whiteboardValues = {}
         self.robots = {}
         return
@@ -310,7 +321,7 @@ class Playground:
         elif typeOfGraph == 'duplication_divergence_graph':
             self.setupDuplicationDivergenceGraph(args)
         else:
-            pass
+            raise Exception("Invalid Graph")
         self.target=random.randint(0,self.graph.number_of_nodes()-1)
         self.targetVal=random.randint(2*self.graph.number_of_nodes(), 3*self.graph.number_of_nodes())
         self.noOfNodes=self.graph.number_of_nodes()

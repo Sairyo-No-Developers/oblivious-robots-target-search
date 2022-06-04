@@ -1,3 +1,4 @@
+from msilib.schema import Error
 from ..Robot import Robot
 import networkx
 import random
@@ -320,7 +321,7 @@ class Playground:
         elif typeOfGraph == 'duplication_divergence_graph':
             self.setupDuplicationDivergenceGraph(args)
         else:
-            pass
+            raise Exception("Invalid Graph")
         self.target=random.randint(0,self.graph.number_of_nodes()-1)
         self.targetVal=random.randint(2*self.graph.number_of_nodes(), 3*self.graph.number_of_nodes())
         self.noOfNodes=self.graph.number_of_nodes()

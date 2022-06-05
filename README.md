@@ -2,8 +2,8 @@
 
 ## Current Version
 
-0.0.5
+0.0.6
 
 ## Changelog
 
-- Descriptions added to the PyPi Package
+- Added 'scipy' to dependency.

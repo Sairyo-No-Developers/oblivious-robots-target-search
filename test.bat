@@ -1,0 +1,1 @@
+env\Scripts\pytest-watch --onfail flash

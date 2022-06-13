@@ -2,8 +2,8 @@
 
 ## Current Version
 
-0.0.6
+0.0.7
 
 ## Changelog
 
-- Added 'scipy' to dependency.
+- Run module directly from the terminal

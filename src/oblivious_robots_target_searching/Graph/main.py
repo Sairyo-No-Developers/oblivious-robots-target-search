@@ -1,8 +1,11 @@
-from ..Robot import Robot
-import networkx
 import random
+
+import networkx
 from matplotlib import pyplot as plt
+
+from ..Robot import Robot
 from .chordAdder import multi_chord
+
 
 def ranks(sample):
     #Return the ranks of each element in an integer sample.
@@ -15,7 +18,7 @@ def sample_with_minimum_distance(n, k, d):
     return [s + (d-1)*r for s, r in zip(sample, ranks(sample))]
 
 class Playground:
-    def __init__(self, sim=True):
+    def __init__(self, sim=True, darkMode=False):
         self.robots = {}
         self.target = None
         self.targetVal = None
@@ -25,6 +28,7 @@ class Playground:
         self.whiteboardValues = {} 
         self.noOfRobots=None
         self.noOfNodes=None
+        self.darkMode = darkMode
         
     def setupRobots(self,args):
         randoms=random.sample(range(self.graph.number_of_nodes()),args['noOfRobots'])        
@@ -354,6 +358,11 @@ class Playground:
         run = True
         visualSwitch = False
         counter = 0
+        if self.darkMode:
+            plt.style.use('dark_background')
+            edgeColor='white'
+        else:
+            edgeColor='black'
         while run:
             self.cycleRobots()
             run = self.checkTargets()
@@ -392,12 +401,13 @@ class Playground:
                 plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} :No. of cycles -> {counter}')     
                 networkx.draw_networkx_nodes(self.graph, self.pos, node_size=330, node_color=color_map, edgecolors=edge_colors)
                 networkx.draw_networkx_labels(self.graph, self.pos,labels,font_size=9, font_color='white')
-                networkx.draw_networkx_edges(self.graph, self.pos)
+                networkx.draw_networkx_edges(self.graph, self.pos, edge_color=edgeColor)
                 plt.pause(0.0001)
             except Exception as e:
                 print(str(e))
             #input()#remove for val>=20
         if not self.sim:
+            plt.title(f'Total nodes -> {self.noOfNodes} : No. of robots -> {self.noOfRobots} : Target at {self.target}\nRobots at target -> {len(list(filter(lambda x: x.pos==self.target, self.robots.values())))} :No. of cycles -> {counter}\nPlease close this window')     
             plt.show()
         if self.sim:
             return [self.noOfNodes,self.noOfRobots, counter-2]

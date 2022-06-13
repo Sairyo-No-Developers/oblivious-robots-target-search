@@ -2,8 +2,8 @@
 
 ## Current Version
 
-0.1.3
+0.1.4
 
 ## Changelog
 
-- Adding support for executable scripts
+- Adding support for dark mode. Check -h or --help

@@ -2,8 +2,8 @@
 
 ## Current Version
 
-0.0.8
+0.0.9
 
 ## Changelog
 
-- Run module directly from the terminal
+- Fixed GUI in Linux systems

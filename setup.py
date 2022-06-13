@@ -1,4 +1,5 @@
 
+import re
 from pathlib import Path
 
 from setuptools import find_packages, setup
@@ -6,9 +7,18 @@ from setuptools import find_packages, setup
 this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
+VERSIONFILE="src/oblivious_robots_target_searching/_version.py"
+verstrline = open(VERSIONFILE, "rt").read()
+VSRE = r"^__version__ = ['\"]([^'\"]*)['\"]"
+mo = re.search(VSRE, verstrline, re.M)
+if mo:
+    verstr = mo.group(1)
+else:
+    raise RuntimeError("Unable to find version string in %s." % (VERSIONFILE,))
+
 setup(
     name='oblivious_robots_target_searching',
-    version='0.0.8',
+    version=verstr,
     description='This package provides a powerful Playground for designing and testing algorithms for oblivious robots',
     description_content_type='text/plain',
     long_description=long_description,
@@ -26,7 +36,8 @@ setup(
           'matplotlib',
           'uuid',
           'names',
-          'pytest'
+          'pytest',
+          'pyqt5'
       ],
 
 )

@@ -6,8 +6,9 @@ import networkx
 
 is_windows = sys.platform.startswith('win')
 
-if not is_windows:
-    matplotlib.use('qtagg')
+if is_windows:
+    matplotlib.use('tkagg')
+    
 from matplotlib import pyplot as plt
 
 from ..Robot import Robot

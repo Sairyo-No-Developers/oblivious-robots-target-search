@@ -1,2 +1,6 @@
-#!/usr/bin/env bash
-python3 -m oblivious_robots_target_searching $*
+#!/usr/bin/env python3
+import oblivious_robots_target_searching
+
+import sys
+
+oblivious_robots_target_searching.terminal(sys.argv[1:])

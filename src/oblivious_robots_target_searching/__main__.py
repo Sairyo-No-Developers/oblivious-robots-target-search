@@ -8,10 +8,8 @@ def run():
     P = Graph.Playground(False)
     P.setup()
     P.run()
-
-
-if __name__ == '__main__':
-    args = sys.argv[1:]
+    
+def terminal(args):
     if len(args) == 0:
         run()
         exit()
@@ -33,3 +31,10 @@ if __name__ == '__main__':
         exit()    
 
     print("Please check the arguments. Pass -h or --help for more info.")
+    exit()
+
+
+if __name__ == '__main__':
+    args = sys.argv[1:]
+    terminal(args)
+    

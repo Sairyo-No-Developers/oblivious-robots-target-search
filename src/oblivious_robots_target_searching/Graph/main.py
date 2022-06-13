@@ -1,6 +1,13 @@
 import random
+import sys
 
+import matplotlib
 import networkx
+
+is_windows = sys.platform.startswith('win')
+
+if not is_windows:
+    matplotlib.use('qtagg')
 from matplotlib import pyplot as plt
 
 from ..Robot import Robot

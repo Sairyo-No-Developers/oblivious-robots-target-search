@@ -2,8 +2,8 @@
 
 ## Current Version
 
-0.0.9
+0.1.0
 
 ## Changelog
 
-- Fixed GUI in Linux systems
+- Adding support for executable scripts

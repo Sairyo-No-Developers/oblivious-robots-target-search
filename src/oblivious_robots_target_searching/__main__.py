@@ -1,3 +1,5 @@
+import sys
+
 from . import Algorithm, Graph, Robot, __version__
 
 
@@ -9,4 +11,25 @@ def run():
 
 
 if __name__ == '__main__':
-    run()
+    args = sys.argv[1:]
+    if len(args) == 0:
+        run()
+        exit()
+    
+    if args[0] in ['-h', '--help']:
+        print(f"Oblivious Robots Target Searching")
+        print("------------------------------------")
+        print("Running it without any arguments, defaults to sim=False, i.e., the interactive way.")
+        print("")
+        print("[Arguments]")
+        print("-v, --version : Outputs the current version of the package installed.")
+        print("-h, --help : Outputs the help guide on how to use the package.")
+        print("")
+        print("Thanks!")
+        exit()  
+    
+    if args[0] in ['-v', '--version']:
+        print(f"version {__version__}")
+        exit()    
+
+    print("Please check the arguments. Pass -h or --help for more info.")

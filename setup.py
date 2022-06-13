@@ -39,5 +39,6 @@ setup(
           'pytest',
           'pyqt5'
       ],
+    scripts=['bin/oblivious-robots.bat', 'bin/oblivious-robots.sh']
 
 )

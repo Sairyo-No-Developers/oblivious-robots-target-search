@@ -1,4 +1,5 @@
-from . import Algorithm, Graph, Robot, __version__
+from . import Graph
+from ._version import __version__
 
 
 def run():
